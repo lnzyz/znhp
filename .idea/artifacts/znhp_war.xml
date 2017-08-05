@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="znhp:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="znhp.war">
+      <element id="artifact" artifact-name="znhp:war exploded" />
+    </root>
+  </artifact>
+</component>
