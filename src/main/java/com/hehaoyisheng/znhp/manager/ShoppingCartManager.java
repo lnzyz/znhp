@@ -15,7 +15,7 @@ public interface ShoppingCartManager {
      * @param commodity
      * @return
      */
-    int insertShoppingCartDO(Long commodity, UserDO user);
+    Long insertShoppingCartDO(Long commodity, UserDO user);
 
     /**
      * 根据用户查询购物车

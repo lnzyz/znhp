@@ -24,8 +24,8 @@ public class ShoppingCartManagerImpl implements ShoppingCartManager {
     @Resource
     private CommodityManager commodityManager;
 
-    public int insertShoppingCartDO(Long commodityId, UserDO user) {
-        int lastInsertCount = -1;
+    public Long insertShoppingCartDO(Long commodityId, UserDO user) {
+        long lastInsertCount = -1L;
         try {
             CommodityDO commodityDO = commodityManager.selectCommodityDOById(commodityId);
             ShoppingCartDO shoppingCartDO = new ShoppingCartDO();
