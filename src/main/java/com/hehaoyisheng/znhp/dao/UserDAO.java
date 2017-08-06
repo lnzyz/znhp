@@ -1,9 +1,8 @@
 package com.hehaoyisheng.znhp.dao;
 
+import com.hehaoyisheng.znhp.constant.SQLProvider;
 import com.hehaoyisheng.znhp.dao.DO.UserDO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.*;
 
 import javax.annotation.Nonnull;
 
@@ -15,6 +14,7 @@ public interface UserDAO {
      * 根据用户名查用户信息
      * @return
      */
+    @Select("select * from user username=#{username}")
     UserDO queryUserByUsername(@Nonnull String username);
 
     /**
@@ -22,6 +22,7 @@ public interface UserDAO {
      * @param phoneNumber
      * @return
      */
+    @Select("select * from user where phoneNumber=#{phoneNumber}")
     UserDO queryUserByPhoneNumber(@Nonnull String phoneNumber);
 
     /**
@@ -29,6 +30,7 @@ public interface UserDAO {
      * @param id
      * @return
      */
+    @Select("select * from user where id=#{id}")
     UserDO queryUserById(@Nonnull int id);
 
     /**
@@ -36,6 +38,8 @@ public interface UserDAO {
      * @param userDO 用户的DO
      * @return
      */
+    @Insert("insert into user (username, password, phoneNumber, userNickName, userHeadPortrait, sex) values (#{userDO.username}, " +
+            "#{userDO.password}, #{userDO.phoneNumber}, #{userDO.userNickName}, #{userDO.userHeadPortrait}, #{userDO.sex})")
     int addUser(@Nonnull UserDO userDO);
 
     /**
@@ -43,12 +47,14 @@ public interface UserDAO {
      * @param userDO
      * @return
      */
-    boolean updateUser(@Nonnull UserDO userDO);
+    @UpdateProvider(type = SQLProvider.class, method = "updateUser")
+    boolean updateUser(UserDO userDO);
 
     /**
      * 仅需要传userId
-     * @param userDO
+     * @param userId
      * @return
      */
-    boolean deleteUser(@Nonnull UserDO userDO);
+    @Delete("delete from user where id=#{userId}")
+    boolean deleteUser(@Nonnull Long userId);
 }

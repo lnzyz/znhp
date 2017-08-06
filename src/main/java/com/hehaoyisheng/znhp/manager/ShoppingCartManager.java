@@ -1,6 +1,7 @@
 package com.hehaoyisheng.znhp.manager;
 
 import com.hehaoyisheng.znhp.dao.DO.ShoppingCartDO;
+import com.hehaoyisheng.znhp.dao.DO.UserDO;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ShoppingCartManager {
      * @param commodity
      * @return
      */
-    int insertShoppingCartDO(Long commodity);
+    int insertShoppingCartDO(Long commodity, UserDO user);
 
     /**
      * 根据用户查询购物车

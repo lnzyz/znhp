@@ -1,5 +1,7 @@
 package com.hehaoyisheng.znhp.dao.DO;
 
+import java.util.Date;
+
 /**
  * Created by yunzhao on 2017/7/29.
  */
@@ -11,6 +13,14 @@ public class UserDO {
     private String userNickName;
     private String userHeadPortrait;
     private int sex;
+    private Date createTime;
+
+    public Date getCreateTime(){
+        return createTime;
+    }
+    public void setCreateTime(Date createTime){
+        this.createTime = createTime;
+    }
 
     public Long getId() {
         return id;

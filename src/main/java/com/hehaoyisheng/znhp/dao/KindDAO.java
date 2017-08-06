@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface KindDAO {
     /**
-     * 获取分类
+     * 获取一级分类
      * @return
      * @throws Exception
      */
-    List<List<KindDO>> getKinds() throws Exception;
+    List<KindDO> getKinds() throws Exception;
 
     /**
      * 根据分类Id获取子分类

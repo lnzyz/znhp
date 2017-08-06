@@ -21,8 +21,8 @@ public interface ShoppingCartDAO {
     @Insert("insert into shopCart (userId, username, commodityId, commodityName, commodityView) " +
             "values (#{shoppingCartDO.userId}, #{shoppingCartDO.username}, #{shoppingCartDO.commodityId}, #{shoppingCartDO.commodityName}, " +
             "#{shoppingCartDO.commodityView})")
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=int.class)
-    int insertShoppingCartDO(ShoppingCartDO shoppingCartDO);
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=long.class)
+    long insertShoppingCartDO(ShoppingCartDO shoppingCartDO);
 
     /**
      * 根据用户查询购物车

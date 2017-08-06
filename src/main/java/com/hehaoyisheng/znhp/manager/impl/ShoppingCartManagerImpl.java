@@ -2,6 +2,7 @@ package com.hehaoyisheng.znhp.manager.impl;
 
 import com.hehaoyisheng.znhp.dao.DO.CommodityDO;
 import com.hehaoyisheng.znhp.dao.DO.ShoppingCartDO;
+import com.hehaoyisheng.znhp.dao.DO.UserDO;
 import com.hehaoyisheng.znhp.dao.ShoppingCartDAO;
 import com.hehaoyisheng.znhp.manager.CommodityManager;
 import com.hehaoyisheng.znhp.manager.ShoppingCartManager;
@@ -23,12 +24,15 @@ public class ShoppingCartManagerImpl implements ShoppingCartManager {
     @Resource
     private CommodityManager commodityManager;
 
-    public int insertShoppingCartDO(Long commodityId) {
+    public int insertShoppingCartDO(Long commodityId, UserDO user) {
         int lastInsertCount = -1;
         try {
             CommodityDO commodityDO = commodityManager.selectCommodityDOById(commodityId);
             ShoppingCartDO shoppingCartDO = new ShoppingCartDO();
             shoppingCartDO.setCommodityId(commodityId);
+            shoppingCartDO.setCommodityName(commodityDO.getName());
+            shoppingCartDO.setCommodityView(commodityDO.getOverView());
+            shoppingCartDO.setUsername(user.getUsername());
             lastInsertCount = shoppingCartDAO.insertShoppingCartDO(shoppingCartDO);
         }catch (Exception e){
 

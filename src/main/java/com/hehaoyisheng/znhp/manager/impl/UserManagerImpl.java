@@ -33,13 +33,10 @@ public class UserManagerImpl implements UserManager{
      */
     public UserDO login(String username, String password){
         UserDO userDO = userDAO.queryUserByUsername(username);
-        if(userDO == null){
+        if (!userDO.getPassword().equals(password)) {
             return null;
         }
-        if(StringUtils.equals(password, userDO.getPassword())){
-            return userDO;
-        }
-        return null;
+        return userDO;
     }
 
     /**
@@ -66,7 +63,7 @@ public class UserManagerImpl implements UserManager{
      * @return
      */
     public Boolean isUserExist(String username) {
-        UserDO userDO = TestData.queryByUsername(username);
+        UserDO userDO = userDAO.queryUserByUsername(username);
         return userDO != null;
     }
 
@@ -76,7 +73,9 @@ public class UserManagerImpl implements UserManager{
      * @return
      */
     public UserDO regist(UserDO userDO) {
-        return TestData.regist(userDO);
+        int id = userDAO.addUser(userDO);
+        userDO.setId(Long.parseLong(id + ""));
+        return userDO;
     }
 
     /**

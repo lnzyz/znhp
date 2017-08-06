@@ -2,8 +2,10 @@ package com.hehaoyisheng.znhp.controller;
 
 import com.hehaoyisheng.znhp.constant.ZnhpStatusCodes;
 import com.hehaoyisheng.znhp.controller.DTO.BaseDTO;
+import com.hehaoyisheng.znhp.dao.DO.AddressDO;
 import com.hehaoyisheng.znhp.dao.DO.ShoppingCartDO;
 import com.hehaoyisheng.znhp.dao.DO.UserDO;
+import com.hehaoyisheng.znhp.manager.AddressManager;
 import com.hehaoyisheng.znhp.manager.ShoppingCartManager;
 import com.hehaoyisheng.znhp.manager.UserManager;
 import com.hehaoyisheng.znhp.utils.CutPageUtils;
@@ -27,7 +29,10 @@ public class UserController {
     private UserManager userManager;
 
     @Resource
-    ShoppingCartManager shoppingCartManager;
+    private ShoppingCartManager shoppingCartManager;
+
+    @Resource
+    private AddressManager addressManager;
 
     /**
      * 登陆
@@ -165,7 +170,7 @@ public class UserController {
         if(user == null){
             return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
         }
-        shoppingCartManager.insertShoppingCartDO(user.getId());
+        shoppingCartManager.insertShoppingCartDO(user.getId(), user);
         return null;
     }
 
@@ -178,6 +183,71 @@ public class UserController {
     @RequestMapping("/deleteShoppingCart")
     @ResponseBody
     public BaseDTO deleteShoppingCart(@ModelAttribute("user") UserDO user, @RequestBody List<Long> commodityIdList){
-        return null;
+        if(user == null){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
+        }
+        try {
+            shoppingCartManager.deleteShoppingCartDOById(commodityIdList);
+        }catch (Exception e){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.SYSTEM_ERROR);
+        }
+        return BaseDTO.createSuccessBaseDTO(Boolean.TRUE);
+    }
+
+    /**
+     * 添加收货地址
+     * @return
+     */
+    @RequestMapping("/addAddress")
+    @ResponseBody
+    public BaseDTO addAddress(@ModelAttribute("user") UserDO user, AddressDO addressDO){
+        if(user == null){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
+        }
+        Long result = addressManager.insertAddress(user, addressDO);
+        return result == -1 ? BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.DATA_NOT_FOUND) : BaseDTO.createSuccessBaseDTO(Boolean.TRUE);
+    }
+
+    /**
+     * 修改收货地址
+     * @return
+     */
+    @RequestMapping("/updateAddress")
+    @ResponseBody
+    public BaseDTO updateAddress(@ModelAttribute("user") UserDO user, AddressDO addressDO){
+        if(user == null){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
+        }
+        Boolean result = addressManager.updateAddress(user, addressDO);
+        return result ? BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.DATA_NOT_FOUND) : BaseDTO.createSuccessBaseDTO(result);
+    }
+
+    /**
+     * 删除收货地址
+     * @return
+     */
+    @RequestMapping("/updateAddress")
+    @ResponseBody
+    public BaseDTO deleteAddress(@ModelAttribute("user") UserDO user, Long id){
+        if(user == null){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
+        }
+        Boolean result = addressManager.deleteAddress(id);
+        return result ? BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.DATA_NOT_FOUND) : BaseDTO.createSuccessBaseDTO(result);
+    }
+
+    /**
+     * 查看收货地址
+     * @param user
+     * @return
+     */
+    @RequestMapping("/getAddress")
+    @ResponseBody
+    public BaseDTO getAddress(@ModelAttribute("user") UserDO user){
+        if(user == null){
+            return BaseDTO.createErrorBaseDTO(ZnhpStatusCodes.USER_NOT_LOGIN);
+        }
+        List<AddressDO> addressDOList = addressManager.selectAddress(user.getId());
+        return BaseDTO.createSuccessBaseDTO(addressDOList);
     }
 }

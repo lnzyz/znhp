@@ -125,6 +125,7 @@
             <artifactId>guava</artifactId>
             <version>22.0</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
@@ -135,6 +136,7 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>2.1.4</version>
         </dependency>
+        -->
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
